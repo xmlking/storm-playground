@@ -1,0 +1,5 @@
+debug=true
+oauth.consumerKey=replace_me
+oauth.consumerSecret=replace_me
+oauth.accessToken=replace_me
+oauth.accessTokenSecret=replace_me

@@ -1,0 +1,87 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath "eu.appsatori:gradle-fatjar-plugin:0.3"
+    }
+}
+
+apply plugin: "groovy"
+apply plugin: "java"
+apply plugin: "idea"
+apply plugin: "eu.appsatori.fatjar"
+
+ext {
+    groovyVersion = project.groovyVersion
+    stormVersion = project.stormVersion
+    gradleWrapperVersion = project.gradleWrapperVersion
+}
+
+group = 'org.sumo.storm'
+version = '0.1.0-SNAPSHOT'
+ 
+repositories {
+    mavenCentral()
+    maven { url "http://clojars.org/repo" }
+}
+
+dependencies {
+	compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+    compile ("org.apache.storm:storm-core:$stormVersion")  {
+        exclude group: "org.slf4j", module: "log4j-over-slf4j"
+        ext {
+            fatJarExclude = true
+        }
+    }
+    compile "org.twitter4j:twitter4j-stream:4.0.2"
+    
+	compile "ch.qos.logback:logback-classic:1.1.2"
+    testCompile "org.spockframework:spock-core:0.7-groovy-2.0", {
+        exclude module: "groovy-all"
+    }
+}
+
+fatJar {
+    exclude "META-INF/*.SF"
+    exclude "META-INF/*.DSA"
+    exclude "META-INF/*.RSA"
+}
+
+task( example1, group:'In-process Storm Example', type:JavaExec ) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'storm.example1.TemplateStormTopology'
+}
+
+task( example2, group:'In-process Storm Example', type:JavaExec ) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'storm.example2.PoetryExample'
+}
+
+task( example3, group:'In-process Storm Example', type:JavaExec ) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'storm.example3.WordCountTopology'
+}
+
+task( example4, group:'In-process Storm Example', type:JavaExec ) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'storm.example4.TridentWordCountTopology'
+}
+
+task( example5, group:'In-process Storm Example', type:JavaExec ) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'storm.example5.TwitterTopology'
+    // You can also set your twitter credentials here instead of `export TWITTER_USERNAME="your username"` in the console.
+    // environment 'TWITTER_USERNAME', 'my_twitter_username'
+    // environment 'TWITTER_PASSWORD', 'my_twitter_password'
+    if (project.hasProperty('args') ) {
+        args project.args.split('\\s+')
+    } else {
+        args= ['--name', 'local', '--filter', '#Groovy']
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = gradleWrapperVersion
+}
