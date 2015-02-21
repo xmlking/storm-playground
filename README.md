@@ -11,13 +11,19 @@ gvm install gradle
 
 ```
 
-### Usage
-`gradle example1`
-`gradle example2`
-`gradle example3`
-`gradle example4`
+### Open project with Intellij IDEA
 
-#### example5
+`File` -> `Open...` and browse to `build.gradle` file.
+
+### Running Examples
+```bash 
+gradle example1
+gradle example2
+gradle example3
+gradle example4
+```
+
+#### Example #5
 You need to set two environment variables to use the Twitter Streaming API:
 
 ```bash 
