@@ -33,8 +33,6 @@ $ export TWITTER_PASSWORD="your password"
 $ gradle example5 -Pargs='--name local --filter #xmlking'
 ```
 
-Rename [twitter4j.properties.dummy](/src/main/resources/twitter4j.properties.dummy) to `twitter4j.properties` 
-
 You will need to create a simple Twitter app [here](https://dev.twitter.com/) and insert your own auth values in `twitter4j.properties`. 
 This is necessary to consume the public stream or perform any other twitter-specific operations.
 
